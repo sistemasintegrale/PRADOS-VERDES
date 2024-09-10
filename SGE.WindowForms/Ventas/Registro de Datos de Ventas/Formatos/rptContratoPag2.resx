@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="xrLabel2.Text" xml:space="preserve">
+    <value>El presente documento establece las condiciones generales que rigen el CONTRATO DE COMPRAVENTA DEL PLAN DE SEPULTURA, celebrado entre LA PROMOTORA, en adelante "LA PROMOTORA", y EL CLIENTE, ambas partes identificadas en las condiciones particulares del mismo.&lt;br&gt;
+&lt;b&gt;Primero:&lt;/b&gt; Antecedentes
+LA PROMOTORA es propietaria del Camposanto "PARQUES DEL PARAÍSO", ubicado en Av. Las Palmas N°2020 esquina Quebrada Verde, distrito de Pachacamac, provincia y departamento de Lima. Su actividad principal es la venta de derechos de cesión de uso de espacios de sepultura. Este contrato está sujeto a la ley N°26298 (Ley de Cementerios y Servicios Funerarios), su reglamento aprobado por Decreto Supremo N° 03-94-SA, y la Ley 29571 (Ley de Protección y Defensa del Consumidor).&lt;br&gt;
+&lt;b&gt;Segundo:&lt;/b&gt; Objeto
+LA PROMOTORA proporciona al titular los servicios funerarios de inhumación y/o vende derechos de cesión de uso de sepultura del tipo y características indicadas en las Condiciones Particulares. EL CLIENTE pagará el precio acordado entre las partes, que consta en las Condiciones Particulares. EL CLIENTE debe aceptar el espacio disponi- ble según la programación vigente o, en su defecto, declarar conocer el lugar de ubicación designado si se permite la elección.&lt;br&gt;
+&lt;b&gt;Tercero:&lt;/b&gt; Precio
+Los precios están especificados en las Condiciones Particulares del presente contrato, los cuales EL CLIENTE declara conocer y aceptar. EL CLIENTE abonará la suma acordada en los plazos y términos establecidos en las Condiciones Particulares de este documento.
+Los precios están detallados en las Condiciones Particulares de este contrato, los cuales EL CLIENTE declara conocer y aceptar. EL CLIENTE se compromete a abonar la suma acordada en los plazos y términos especificados en las Condiciones Particulares de este documento. Es necesario que el precio acordado se haya pagado en su totalidad para que EL CLIENTE pueda ejercer los derechos otorgados por este contrato. En caso de adquisición de sepulturas en Necesidad Futura, LA PROMOTORA podrá ofrecer financiamiento a EL CLIENTE, siempre y cuando tenga un historial crediticio aprobado y no haya sido reportado a las Centrales de Riesgo ni haya incurrido en morosidad en el pago de sus cuotas.
+El número de sepulturas comprendidas en este contrato se detalla en el recuadro "Capacidad Contratada" (en unidades), mientras que el total de espacios de sepultura se indica en el recuadro "Capacidad Total" (en unidades). Además, el número de urnas de concreto armado incluidas en el contrato se especifica en el recuadro correspon- diente (en unidades), al igual que el número de servicios de inhumación incluidos, indicados en el recuadro "Servicios de Inhumación" (en unidades).&lt;br&gt;
+&lt;b&gt;Cuatro: &lt;/b&gt;Modalidades y Condiciones Específicas de Uso del Contrato
+El cliente tiene la opción de adquirir el derecho de cesión de uso de sepultura(s), producto(s) y/o servicios ofrecidos por LA PROMOTORA en las modalidades de Necesidad Futura (código NF), cuando la sepultura y/o servicios se utilizarán en el futuro debido a que aún no ha ocurrido el fallecimiento del beneficiario, o de Necesidad Inmediata (código NI), cuando la sepultura y/o servicios se utilizarán de inmediato debido al fallecimiento del beneficiario, de acuerdo a los requisitos detallados en las Condiciones Particulares de este documento.
+El derecho de sepultura otorga a EL CLIENTE o a sus herederos la reserva para la inhumación de la(s) persona(s) designada(s) con derecho de uso de la(s) sepultura(s) contratada(s), siempre que EL CLIENTE o su(s) heredero(s) cumplan con las estipulaciones señaladas, de acuerdo al tipo de plan de sepultura indicado en las Condiciones Particulares de este contrato.
+EL CLIENTE deberá designar a la(s) persona(s) con derecho de uso de la(s) sepultura(s) contratada(s), mediante una carta dirigida a LA PROMOTORA, la(s) cual(es) podrán ser cambiada(s) o modificada(s) por EL CLIENTE según sea necesario.
+El CLIENTE tiene la facultad de transferir el derecho de uso a terceras personas, siempre y cuando presente una carta con firma legalizada notarialmente dirigida a LA PROMOTORA y abone los gastos administrativos correspondientes, según las tarifas vigentes.
+En el caso de que este contrato se refiera a una sepultura compartida ubicada en un espacio con dos o más sepulturas, EL CLIENTE reconoce y acepta que, debido al tipo, características y ubicación de la sepultura cuyo derecho de uso se concede mediante este contrato, LA PROMOTORA pueda realizar traslados internos, traslados externos, mecanismos técnicos y/o movimientos en el espacio de la sepultura que involucren otros restos, ya sea en el espacio superior o inferior de la sepultura ocupada por el beneficiario del presente contrato. EL CLIENTE declara tener conocimiento previo y autoriza expresamente todas las labores y acciones correspondientes, previa comuni- cación.
+En el caso de que el servicio contratado no se haya prestado o se haya cedido el uso del espacio de la sepultura, EL CLIENTE tiene derecho a modificar dicho servicio o producto de acuerdo con la lista de precios vigente y los gastos administrativos aplicables. Las condiciones para el uso de la sepultura contratada por el fallecimiento del CLIENTE o de los beneficiarios se detallan en las condiciones particulares del presente contrato.&lt;br&gt;
+&lt;b&gt;Quinto: &lt;/b&gt;Condiciones de Pago y Penalidades
+En caso de incumplimiento oportuno del pago de una o más cuotas estipuladas en las condiciones particulares del presente contrato, EL CLIENTE quedará automáticamen- te en situación de moroso. En tal situación, EL CLIENTE estará obligado al pago de intereses moratorios, los cuales se calcularán aplicando la tasa máxima utilizada en el sistema nacional para operaciones activas.
+Además, en caso de incumplimiento por parte de EL CLIENTE con cualquiera de sus obligaciones, especialmente con respecto al pago oportuno de todas y cada una de las cuotas pactadas, LA PROMOTORA tiene plena facultad para, a su elección:
+a) Resolver unilateralmente y de pleno derecho el presente contrato, considerando el incumplimiento de una o varias cuotas como causa de resolución automática del contrato. Esta resolución se llevará a cabo mediante comunicación escrita dirigida a EL CLIENTE o a sus herederos, surtiendo efecto desde la fecha de recepción de dicha comunicación; o
+b) En forma alternativa, LA PROMOTORA podrá considerar vencidas todas las cuotas pendientes de pago, así como sus plazos, y proceder a la ejecución del cobro. En el momento de la firma del presente contrato, EL CLIENTE suscribirá una letra de cambio en blanco, la cual será completada en caso de incumplimiento con el saldo deudor resultante de la liquidación de las cuotas pendientes y los intereses generados. En este caso, LA PROMOTORA estará facultada para completar el título valor y proceder a la acción de ejecución judicial correspondiente de conformidad con las normas del Código Procesal Civil y la Ley de Títulos Valores.
+En cualquier caso de resolución del contrato, a menos que dicha resolución sea imputable a LA PROMOTORA por dolo o culpa inexcusable, se establece contractualmente que EL CLIENTE deberá pagar una penalidad contractual equivalente a la totalidad de los pagos realizados a LA PROMOTORA. En tal situación, LA PROMOTORA podrá conservar íntegramente las cuotas percibidas, sin que EL CLIENTE tenga derecho a restitución o reclamo alguno. EL CLIENTE renuncia, mediante su firma en el presente documento, a cualquier acción judicial o administrativa.
+En caso de que la resolución del presente contrato sea resultado de la falta de pago u otra causal imputable a EL CLIENTE, LA PROMOTORA podrá disponer de la sepultura objeto del mismo. Si la sepultura está ocupada, LA PROMOTORA queda autorizada a exhumar los restos y depositarlos, a su elección, en una fosa común en las instalacio- nes del mismo camposanto o disponer de su traslado a un cementerio público.
+Si el presente contrato está asociado a la adquisición de unidades múltiples o familiares, y algunas de las sepulturas ya están ocupadas, y en caso de que se haya resuelto el contrato de acuerdo con lo mencionado anteriormente, LA PROMOTORA recuperará el derecho de dominio y uso de las unidades restantes. En este caso, LA PROMOTO- RA podrá disponer de las unidades restantes convirtiendo la unidad familiar o múltiple en una sepultura compartida. Se reserva el derecho de proceder conforme se indica en el párrafo anterior en el caso de las unidades ya ocupadas.
+Para llevar a cabo los términos del contrato, en el supuesto de que se haya resuelto el contrato debido a falta de pago, EL CLIENTE otorga facultades especiales a LA PROMOTORA para disponer, solicitar y autorizar la exhumación y el traslado de los restos exhumados como consecuencia de la resolución. LA PROMOTORA se comprome- te a notificar a EL CLIENTE o a sus herederos la fecha de exhumación para que estos puedan hacer valer sus derechos, custodiar el traslado de los restos exhumados, o si así lo desean, disponer y tramitar el traslado a otro camposanto de su elección.&lt;br&gt;
+&lt;b&gt;Sexto: &lt;/b&gt;Obligaciones de EL CLIENTE: Reglamento Interno, Fondo de Mantenimiento, Cuota de Administración Anual, Confección de Placas Grabadas, Traslado de Restos.
+En el caso de que EL CLIENTE adquiera un derecho de cesión de uso de sepultura, este se compromete a cumplir con las disposiciones del reglamento interno del Campo- santo Parques del Paraíso, que se incorpora al presente contrato como parte integrante del mismo. EL CLIENTE declara conocer y estar informado del contenido del reglamento interno, y cualquier modificación a dicho reglamento, aprobado por la autoridad correspondiente, surtirá efecto de inmediato, incluso para los contratos celebrados con anterioridad a dicha modificación. Los cambios en el reglamento interno no afectarán ninguna condición ni resultarán en un aumento en la retribución establecida en el contrato.
+Según lo establecido en el Reglamento de la Ley de Cementerios y Servicios Funerarios, para el mantenimiento y conservación del Parque Cementerio Parques del Paraíso, EL CLIENTE pagará el FOMA en conjunto con la contraprestación por la sepultura otorgada. El pago del FOMA se aplica a cada unidad o espacio adquirido en cesión de uso. Además, EL CLIENTE se compromete a abonar a LA PROMOTORA una cuota anual de Administración no reembolsable y sujeta a variación, destinada al funcionamien- to y operatividad de las instalaciones del Camposanto. Este pago se realizará directamente en las oficinas de LA PROMOTORA o en las cuentas bancarias designadas para este fin. En caso de incumplimiento por parte de EL CLIENTE en el pago de la Cuota Anual, LA PROMOTORA iniciará las acciones legales correspondientes. Todos los gastos relacionados con la formalización o perfeccionamiento del presente contrato serán asumidos por EL CLIENTE.
+EL CLIENTE o las personas designadas por él utilizarán la(s) sepultura(s) conforme a lo establecido en las Condiciones Particulares de este documento. En caso de que no se haya designado a los beneficiarios en las Condiciones Particulares, EL CLIENTE podrá hacerlo en cualquier momento mediante comunicación escrita previa a la utilización del espacio de sepultura. Una vez que se haya abonado íntegramente la contraprestación especificada en las cláusulas particulares del contrato, LA PROMOTORA emitirá un certificado de Cesión de Uso a EL CLIENTE, que acredita el derecho del contratante sobre la(s) sepultura(s). LA PROMOTORA no tiene la obligación de inscribir dicho título en los Registros Públicos; sin embargo, EL CLIENTE podrá hacerlo asumiendo todos los costos y trámites correspondientes, incluyendo los notariales y registrales. En caso de razones técnicas de ubicación o cualquier discrepancia, LA PROMOTORA se reserva el derecho de redistribuir la asignación de la sepultura objeto de este contrato dentro de la misma plataforma designada, de acuerdo a las condiciones particulares pactadas en el presente contrato.
+Para el servicio de confección de las Placas Grabadas, EL CLIENTE debe firmar el formato de autorización de lápida con los datos necesarios y presentar toda la documen- tación requerida en el momento de la inhumación. La lápida será instalada en un plazo máximo de 30 días calendario después de ocupado el espacio, y su mantenimiento será responsabilidad de EL CLIENTE, quien abonará el costo correspondiente de acuerdo a la lista de precios vigente.
+Para el traslado externo de restos, LA PROMOTORA proporcionará la información necesaria al familiar directo o solicitante con la autorización del familiar responsable por línea directa. Se deberá realizar el pago correspondiente al Derecho de Traslado Externo de Restos, de acuerdo a las características particulares del contrato y la lista de precios vigente.
+En caso de requerirse el traslado interno de restos, EL CLIENTE firmará la Addenda correspondiente y aceptará el pago del Derecho de Traslado Interno, según el tipo de sepultura y la lista de precios vigente.&lt;br&gt;
+&lt;b&gt;Séptimo: &lt;/b&gt;Envío de Comunicaciones
+Las partes renuncian expresamente al fuero de sus domicilios y se someten a la jurisdicción de los jueces de Lima para cualquier controversia derivada de la ejecución o interpretación del presente contrato que no pueda solucionarse directamente. Todas las notificaciones y comunicaciones relacionadas con este contrato y su ejecución, incluyendo cualquier controversia judicial, se enviarán a los domicilios indicados en este contrato. Cualquier cambio de domicilio deberá notificarse mediante Carta Notarial o por comunicación con acuse de recibo.&lt;br&gt;</value>
+  </data>
+</root>

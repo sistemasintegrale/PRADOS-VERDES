@@ -1,0 +1,12 @@
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\bin\Release\SGE.DataAccess.dll.config
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\bin\Release\SGE.DataAccess.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\bin\Release\SGE.DataAccess.pdb
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\bin\Release\Newtonsoft.Json.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\bin\Release\RestSharp.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\bin\Release\SGE.Entity.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\bin\Release\SGE.Entity.pdb
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\bin\Release\Newtonsoft.Json.xml
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\bin\Release\RestSharp.xml
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\obj\Release\SGE.DataAccess.csprojResolveAssemblyReference.cache
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\obj\Release\SGE.DataAccess.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.DataAccess\obj\Release\SGE.DataAccess.pdb

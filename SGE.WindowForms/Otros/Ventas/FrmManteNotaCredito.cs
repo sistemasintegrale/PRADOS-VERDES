@@ -1,0 +1,741 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using DevExpress.XtraEditors;
+using SGE.Entity;
+using SGE.WindowForms.Modules;
+using SGE.BusinessLogic;
+using SGE.WindowForms.Maintenance;
+using SGE.WindowForms.Otros.Operaciones;
+using System.Linq;
+using System.Security.Principal;
+using SGE.WindowForms.Otros.Cuentas_por_Cobrar;
+
+namespace SGE.WindowForms.Otros.bVentas
+{
+    public partial class FrmManteNotaCredito : DevExpress.XtraEditors.XtraForm
+    {        
+        public delegate void DelegadoMensaje(int intIcod);
+        public event DelegadoMensaje MiEvento;
+        /**/
+        public ENotaCredito oBe = new ENotaCredito();
+        List<ENotaCreditoDet> lstDetalle = new List<ENotaCreditoDet>();
+        List<ENotaCreditoDet> lstDelete = new List<ENotaCreditoDet>();
+        /**/
+        public List<ENotaCredito> lstCabeceras = new List<ENotaCredito>();//este listado se utiliza para comparar si ya existe el nro. de nc que se esta registrando
+        private decimal? IGV;
+        public string PorIVAP;
+        public string PorIGV;
+        private void FrmManteNotaCredito_Load(object sender, EventArgs e)
+        {
+            cargar();
+            grdNC.DataSource = lstDetalle;
+            IGV = Convert.ToDecimal(Parametros.strPorcIGV);
+        }
+
+        public BSMaintenanceStatus oState;
+        private BSMaintenanceStatus mStatus;
+        public BSMaintenanceStatus Status
+        {
+            get { return (mStatus); }
+            set
+            {
+                mStatus = value;
+                StatusControl();
+            }
+        }
+        private void StatusControl()
+        {
+            bool Enabled = (Status == BSMaintenanceStatus.View);
+            if (Status == BSMaintenanceStatus.ModifyCurrent)
+            {
+                txtSerie.Enabled = Enabled;
+                txtNumero.Enabled = Enabled;
+                dteFecha.Enabled = Enabled;
+                lkpSituacion.Enabled = Enabled;
+                txtMontoIGV.Enabled = Enabled;
+                lkpMoneda.Enabled = false;
+            }
+        }
+
+        public void setValues()
+        {
+            #region Setting values (cabecera...)
+            //cbIncluyeIGV.Checked = Convert.ToBoolean(oBe.ncrec_bincluye_igv);
+            if (oBe.ncrec_vnumero_credito.Length == 10)
+            {
+                txtSerie.Text = oBe.ncrec_vnumero_credito.Substring(0, 3);
+                txtNumero.Text = oBe.ncrec_vnumero_credito.Substring(3, 7);
+            }
+            else
+            {
+                txtSerie.Text = oBe.ncrec_vnumero_credito.Substring(0, 4);
+                txtNumero.Text = oBe.ncrec_vnumero_credito.Substring(4, 8);
+            }
+
+            dteFecha.EditValue = oBe.ncrec_sfecha_credito;            
+            lkpSituacion.EditValue = oBe.ncrec_iid_situacion_credito;
+            bteCliente.Tag = oBe.cliec_icod_cliente;
+            bteCliente.Text = oBe.strDesCliente;
+            txtRuc.Text = oBe.strRuc;
+            bteNroDoc.Text = oBe.ncrec_vnumero_documento;
+            lkpTipoDoc.EditValue = oBe.tdocc_icod_tipo_doc;
+            dteFechaDoc.EditValue = oBe.ncrec_sfecha_documento;            
+            lkpMoneda.EditValue = oBe.tablc_iid_tipo_moneda;
+            txtMontoIGV.Text = oBe.ncrec_npor_imp_igv.ToString();
+            txtMontoNeto.Text = oBe.ncrec_nmonto_neto.ToString();            
+            txtMontoTotal.Text = oBe.ncrec_nmonto_total.ToString();
+            //ChkIndArroz.Checked = oBe.ncrec_bind_arroz;
+            PorIVAP = oBe.ncrec_npor_imp_ivap.ToString();
+            PorIGV = oBe.ncrec_npor_imp_igv.ToString();
+            txtMontoImpArroz.Text = oBe.ncrec_nmonto_ivap.ToString();
+            bteVendedor.Tag = oBe.vendc_icod_vendedor;
+            bteVendedor.Text = oBe.NomVendedor;
+            #endregion
+
+
+
+
+            lstDetalle = new BVentas().listarNotaCreditoClienteDet(oBe.ncrec_icod_credito);
+            grdNC.DataSource = lstDetalle;
+            viewNC.RefreshData();
+        }
+
+        public FrmManteNotaCredito()
+        {
+            InitializeComponent();
+        }
+
+        public void SetInsert()
+        {
+            Status = BSMaintenanceStatus.CreateNew;          
+        }
+
+        public void SetModify()
+        {
+            Status = BSMaintenanceStatus.ModifyCurrent;            
+        }
+
+        public void SetCancel()
+        {
+            Status = BSMaintenanceStatus.View;
+            SetCancel();
+        }
+
+        private void cargar()
+        {
+            BSControls.LoaderLook(lkpSituacion, new BGeneral().listarTablaRegistro(Parametros.intTipoTablaSituacionDocumento), "tarec_vdescripcion", "tarec_iid_tabla_registro", true);
+            BSControls.LoaderLook(lkpMoneda, new BGeneral().listarTablaRegistro(Parametros.intTipoTablaTipoMoneda), "tarec_vdescripcion", "tarec_iid_tabla_registro", true);
+            BSControls.LoaderLook(lkpMotivoSunat, new BVentas().TablasSunatDetListar(1), "suntd_vdescripcion", "suntd_codigo", true);
+            #region load tipo doc
+            List<ETipoDocumento> lstTD = new List<ETipoDocumento>();
+            for (int i = 0; i < 3; i++)
+            {
+                ETipoDocumento oBeTD = new ETipoDocumento();
+                switch (i)
+                {
+                    case 0:
+                        oBeTD.tdocc_icod_tipo_doc = 0;
+                        oBeTD.tdocc_vabreviatura_tipo_doc = "";
+                        break;
+                    case 1:
+                        oBeTD.tdocc_icod_tipo_doc = Parametros.intTipoDocFacturaVenta;
+                        oBeTD.tdocc_vabreviatura_tipo_doc = "FAV";
+                        break;
+                    case 2:
+                        oBeTD.tdocc_icod_tipo_doc = Parametros.intTipoDocBoletaVenta;
+                        oBeTD.tdocc_vabreviatura_tipo_doc = "BOV";
+                        break;
+                }
+                lstTD.Add(oBeTD); 
+            }
+            BSControls.LoaderLook(lkpTipoDoc, lstTD,"tdocc_vabreviatura_tipo_doc", "tdocc_icod_tipo_doc", true);
+            #endregion
+            if (Status == BSMaintenanceStatus.CreateNew)
+            {
+                setFecha(dteFecha);
+                getNroDoc();
+                //txtIgv.Text = Parametros.strPorcIGV;
+            }  
+        }
+        private void getNroDoc()
+        {
+            
+                if (Convert.ToInt32(lkpTipoDoc.EditValue) == 26)
+                {
+                    var lst = new BVentas().getCorrelativoRP(1);
+                    txtSerie.Text = lst[0].rgpmc_vserieF_nota_credito;
+                    txtNumero.Text = (Convert.ToInt32(lst[0].rgpmc_icorrelativo_nota_credito) + 1).ToString();
+                }
+                else if (Convert.ToInt32(lkpTipoDoc.EditValue) == 9)
+                {
+                    var lst = new BVentas().getCorrelativoRP(1);
+                    txtSerie.Text = lst[0].rgpmc_vserieB_nota_credito;
+                    txtNumero.Text = (Convert.ToInt32(lst[0].rgpmc_icorrelativo_nota_credito) + 1).ToString();
+                }
+            
+        }
+
+        private void setFecha(DateEdit fecha)
+        {
+            if (DateTime.Now.Year == Parametros.intEjercicio)
+                fecha.EditValue = DateTime.Now;
+            else
+                fecha.EditValue = DateTime.MinValue.AddYears(Parametros.intEjercicio - 1).AddMonths(DateTime.Now.Month - 1);
+        }
+
+        private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //if (ChkIndArroz.Checked == false)
+            //    txtIgv.Text = IGV.ToString();
+            //else
+            //    txtIgv.Text = Convert.ToDecimal(txtIgv.Text).ToString();
+            using (frmManteNotaCredDetalle frm = new frmManteNotaCredDetalle())
+            {
+                frm.SetInsert();
+                frm.lstDetalle = lstDetalle;
+                //frm.flag_Arrox = ChkIndArroz.Checked;
+                frm.valor_IGV = Convert.ToDecimal(txtMontoIGV.Text);
+                frm.txtMoneda.Text = lkpMoneda.Text;
+                frm.txtItem.Text = (lstDetalle.Count == 0) ? "001" : String.Format("{0:000}", lstDetalle.Count + 1);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    //PorIVAP = frm.PorIVAP;
+                    if (Convert.ToDecimal(frm.PorIVAP) != 0)
+                    {
+                        PorIVAP = frm.PorIVAP;
+                    }
+                    if (Convert.ToDecimal(frm.PorIGV) != 0)
+                    {
+                        PorIGV = frm.PorIGV;
+                    }
+                    lstDetalle = frm.lstDetalle;
+                    grdNC.DataSource = lstDetalle;
+                    viewNC.RefreshData();
+                    grdNC.Refresh();
+                    viewNC.MoveLast();
+                    
+                    setTotales();
+                }
+            }
+        }
+
+        private void nuevoServicio()
+        {
+            using (frmManteNotaCredServicioDetalle frm = new frmManteNotaCredServicioDetalle())
+            {
+                frm.SetInsert();
+                frm.lstDetalle = lstDetalle;
+                frm.lkpMoneda.EditValue = lkpMoneda.EditValue;
+                frm.txtItem.Text = (lstDetalle.Count == 0) ? "001" : String.Format("{0:000}", lstDetalle.Count + 1);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    lstDetalle = frm.lstDetalle;
+                    grdNC.DataSource = lstDetalle;
+                    viewNC.RefreshData();
+                    viewNC.MoveLast();
+                    setTotales();
+                }
+            }
+        }
+        
+        private void modificarServicio()
+        {
+            ENotaCreditoDet oBeDet = (ENotaCreditoDet)viewNC.GetRow(viewNC.FocusedRowHandle);
+            if (oBeDet == null)
+                return;
+            using (frmManteNotaCredServicioDetalle frm = new frmManteNotaCredServicioDetalle())
+            {
+                frm.oBe = oBeDet;
+                frm.lstDetalle = lstDetalle;
+                frm.SetModify();
+                frm.setValues();
+                frm.lkpMoneda.EditValue = lkpMoneda.EditValue;
+                frm.txtItem.Text = String.Format("{0:000}", oBeDet.dcrec_inro_item);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    lstDetalle = frm.lstDetalle;
+                    grdNC.DataSource = lstDetalle;
+                    viewNC.RefreshData();
+                    viewNC.MoveLast();
+                    setTotales();
+                }
+            }
+        }      
+
+        private void setSave()
+        {
+            BaseEdit oBase = null;
+            Boolean Flag = true;      
+            try 
+            {
+                if (txtSerie.Text == "")
+                {
+                    oBase = txtSerie;
+                    throw new ArgumentException("Ingrese Nro. de Serie de la N/C");
+                }              
+
+                if (Convert.ToInt32(txtNumero.Text) == 0)
+                {
+                    oBase = txtNumero;
+                    throw new ArgumentException("Ingrese Nro. de la N/C");
+                }
+
+                if(Status == BSMaintenanceStatus.CreateNew)
+                    if (lstCabeceras.Where(x => x.ncrec_vnumero_credito == String.Format("{0}{1}", txtSerie.Text, txtNumero.Text)).ToList().Count > 0)
+                    {
+                        oBase = txtNumero;
+                        throw new ArgumentException("El Nro. de N/C, ya existe en los registros!");
+                    }
+
+                if (Convert.ToDateTime(dteFecha.Text).Year != Parametros.intEjercicio)
+                {
+                    oBase = dteFecha;
+                    throw new ArgumentException("La fecha seleccionada esta fuera del rango del ejercicio");
+                }
+
+                if (Convert.ToInt32(bteCliente.Tag) == 0)
+                {
+                    oBase = bteCliente;
+                    throw new ArgumentException("Seleccione el cliente");
+                }
+
+                if (lstDetalle.Count == 0)
+                {
+                    if (XtraMessageBox.Show("No ha ingresado ningun ítem en el detalle de la N/C!!! ¿Desea continuar?", "Información del Sistema", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) != DialogResult.Yes)
+                        throw new ArgumentException(string.Empty);
+                    //throw new ArgumentException("No ha ingresado ningun ítem en el detalle de la N/C!!!");
+                }
+
+                oBe.ncrec_vnumero_credito =  txtSerie.Text + txtNumero.Text;
+                oBe.ncrec_sfecha_credito = Convert.ToDateTime(dteFecha.EditValue);                
+                oBe.ncrec_ianio = Parametros.intEjercicio;
+                oBe.cliec_icod_cliente = Convert.ToInt32(bteCliente.Tag);
+                
+                oBe.tdocc_icod_tipo_doc = Convert.ToInt32(lkpTipoDoc.EditValue);
+                oBe.tdodc_iid_correlativo = 54;//nota de credito devolucion mercaderia
+                oBe.ncrec_vnumero_documento = bteNroDoc.Text;
+                oBe.ncrec_sfecha_documento = Convert.ToDateTime(dteFechaDoc.EditValue);
+                oBe.tablc_iid_tipo_moneda = Convert.ToInt32(lkpMoneda.EditValue);
+                oBe.ncrec_nmonto_neto = Convert.ToDecimal(txtMontoNeto.Text);
+                //oBe.ncrec_npor_imp_igv = Convert.ToDecimal(txtIgv.Text);
+                oBe.ncrec_nmonto_total = Convert.ToDecimal(txtMontoTotal.Text);
+                oBe.ncrec_iid_situacion_credito = Convert.ToInt32(lkpSituacion.EditValue);
+                oBe.vendc_icod_vendedor = Convert.ToInt32(bteVendedor.Tag);            
+                oBe.intUsuario = Valores.intUsuario;
+                oBe.strPc = WindowsIdentity.GetCurrent().Name;
+                //oBe.ncrec_bincluye_igv = cbIncluyeIGV.Checked;
+                oBe.ncrec_tipo_nota_credito = 1;//NOTA DE CREDITO COMERCIAL
+
+                oBe.ncrec_npor_imp_ivap = Convert.ToDecimal(PorIVAP);
+                oBe.ncrec_nmonto_ivap = Convert.ToDecimal(txtMontoImpArroz.Text);
+                oBe.ncrec_nmonto_neto_ivap = Convert.ToDecimal(txtMontoNetoIVAP.Text);
+                //}
+                //else if (Convert.ToDecimal(PorIGV) > 0)
+                //{
+                oBe.ncrec_nmonto_neto = Convert.ToDecimal(txtMontoNeto.Text);
+                oBe.ncrec_nmonto_imp = Convert.ToDecimal(txtMontoIGV.Text);
+                oBe.ncrec_npor_imp_igv = Convert.ToDecimal(PorIGV);
+                //}
+                //else
+                //{
+                oBe.ncrec_nmonto_neto_exo = Convert.ToDecimal(txtMontoNetoExo.Text);
+                //}
+                oBe.ncvc_vmotivo_sunat = lkpMotivoSunat.EditValue.ToString();
+
+                #region Facturacion Electronica
+                oBe.idDocumento = oBe.ncrec_vnumero_credito.Remove(4, 8) + '-' + oBe.ncrec_vnumero_credito.Remove(0, 4);
+                oBe.fechaEmision = oBe.ncrec_sfecha_credito.ToString();
+                oBe.fechaVencimiento = oBe.ncrec_sfecha_credito.ToString();
+                oBe.tipoDocumento = "07";
+                if (Convert.ToInt32(lkpMoneda.EditValue) == 3)
+                {
+                    oBe.moneda = "PEN";
+                }
+                else
+                {
+                    oBe.moneda = "USD";
+                }
+
+                oBe.CodMotivoNota = lkpMotivoSunat.EditValue.ToString();
+                oBe.DescripMotivoNota = lkpMotivoSunat.Text;
+                oBe.NroDocqModifica = bteNroDoc.Text;
+
+                if (Convert.ToInt32(lkpTipoDoc.EditValue) == 10)
+                {
+                    oBe.TipoDocqModifica = "01";
+                }
+                else
+                {
+                    oBe.TipoDocqModifica = "03";
+                }
+                oBe.cantidadItems = lstCabeceras.Count;
+                oBe.nombreComercialEmisor = Valores.strNombreEmpresa;
+                oBe.nombreLegalEmisor = Valores.strNombreEmpresa;
+                oBe.tipoDocumentoEmisor = "6";
+                oBe.nroDocumentoEmisior = Valores.strRUC;
+                oBe.CodLocalEmisor = "0000";
+                oBe.nroDocumentoReceptor = txtRuc.Text;
+                oBe.tipoDocumentoReceptor = "6";
+                oBe.nombreLegalReceptor = bteCliente.Text;
+                //oBe.direccionReceptor = txtDireccion.Text;
+                oBe.CodMotivoDescuento = 0;
+                oBe.PorcDescuento = 0;
+                oBe.MontoDescuentoGlobal = 0;
+                oBe.BaseMontoDescuento = 0;
+                oBe.CodigoTributo = 1000;
+                oBe.MontoExonerado = 0;
+                if (Convert.ToDecimal(txtMontoIGV.Text) == 0)
+                {
+                    oBe.MontoInafecto = oBe.ncrec_nmonto_total;
+                    oBe.MontoTotalImpuesto = 0;
+                    oBe.MontoGravadasIGV = 0;
+                }
+                else
+                {
+                    oBe.MontoInafecto = 0;
+                    oBe.MontoTotalImpuesto = oBe.ncrec_nmonto_imp;
+                    oBe.MontoGravadasIGV = oBe.ncrec_nmonto_neto;
+                }
+
+                oBe.MontoGratuitoImpuesto = 0;
+                oBe.MontoBaseGratuito = 0;
+                oBe.totalIgv = oBe.ncrec_nmonto_imp;
+                oBe.MontoGravadosISC = 0;
+                oBe.totalIsc = 0;
+                oBe.MontoGravadosOtros = 0;
+                oBe.totalOtrosTributos = 0;
+                oBe.TotalValorVenta = oBe.ncrec_nmonto_neto;
+                oBe.TotalPrecioVenta = oBe.ncrec_nmonto_total;
+                oBe.MontoDescuento = 0;
+                oBe.MontoTotalCargo = 0;
+                oBe.MontoTotalAnticipo = 0;
+                oBe.ImporteTotalVenta = oBe.ncrec_nmonto_total;
+                oBe.EstadoFacturacion = 4;
+
+                #endregion
+
+                if (Status == BSMaintenanceStatus.CreateNew)
+                {
+                    oBe.ncrec_icod_credito = new BVentas().insertarNotaCreditoClienteCab(oBe, lstDetalle);
+                }
+                else
+                {
+                    new BVentas().modificarNotaCreditoClienteCab(oBe, lstDetalle, lstDelete);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (oBase != null)
+                {
+                    oBase.Focus();
+                    oBase.ErrorText = ex.Message;
+                    oBase.ErrorIconAlignment = ErrorIconAlignment.MiddleRight;
+                }
+                XtraMessageBox.Show(ex.Message, "Información del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Flag = false;
+            }
+            finally
+            {
+                if (Flag)
+                {
+                    MiEvento(oBe.ncrec_icod_credito);
+                    Close();
+                }
+            }
+        }
+
+     
+        private void bteCliente_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+        {
+            listarCliente();
+        }
+
+        private void btnGuardar_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            setSave();
+        }
+
+        private void btnCancelar_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            Close();
+        }
+
+        private void setTotales()
+        {
+            #region Anterior
+            //decimal Convertidor;
+            //if (lstDetalle.Count > 0)
+            //{
+            //    txtMontoTotal.Text = lstDetalle.Sum(x => x.dcrec_nmonto_item).ToString();
+            //    txtMontoNeto.Text = Math.Round((Convert.ToDecimal(txtMontoTotal.Text) / Convert.ToDecimal(String.Format("1.{0}", Parametros.strPorcIGV.Replace(".", "")))), 2).ToString();
+
+            //}
+            //else
+            //{
+            //    txtMontoNeto.Text = "0.00";                
+            //    txtMontoTotal.Text = "0.00";
+            //}
+
+            //if (lstDetalle.Count > 0)
+            //{
+            //    if (ChkIndArroz.Checked == false)
+            //    {
+            //        if (cbIncluyeIGV.Checked)
+            //        {
+            //            decimal total = lstDetalle.Sum(x => x.dcrec_nmonto_item);
+            //            decimal igv = Convert.ToDecimal(String.Format("1.{0}", Parametros.strPorcIGV.Replace(".", ""), 2));
+            //            decimal neto = Math.Round(total / Convert.ToDecimal("1." + txtIgv.Text.Replace(".", "")), 2);
+            //            txtMontoNeto.Text = Convertir.RedondearNumero(neto).ToString();
+            //            txtMontoTotal.Text = Convertir.RedondearNumero(total).ToString();
+            //            //txtMontoIGV.Text = (Convert.ToDecimal(txtMontoTotal.Text) - Convert.ToDecimal(txtMontoNeto.Text)).ToString();
+            //        }
+            //        else
+            //        {
+            //            decimal neto = lstDetalle.Sum(x => x.dcrec_nmonto_item);
+            //            decimal igv = Convert.ToDecimal(String.Format("1.{0}", Parametros.strPorcIGV.Replace(".", ""), 2));
+            //            decimal total = Math.Round(neto * Convert.ToDecimal("1." + txtIgv.Text.Replace(".", "")), 2);
+            //            txtMontoNeto.Text = Convertir.RedondearNumero(neto).ToString();
+            //            txtMontoTotal.Text = Convertir.RedondearNumero(total).ToString();
+            //            //txtMontoIGV.Text = (Convert.ToDecimal(txtMontoTotal.Text) - Convert.ToDecimal(txtMontoNeto.Text)).ToString();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (cbIncluyeIGV.Checked)
+            //        {
+            //            txtMontoImpArroz.Text = Math.Round(Convert.ToDecimal(lstDetalle.Sum(ob => ob.dcrec_nmonto_imp_arroz)), 2, MidpointRounding.ToEven).ToString();
+            //            decimal total = lstDetalle.Sum(x => x.dcrec_nmonto_item);
+            //            //decimal igv = Convert.ToDecimal(String.Format("1.{0}", Parametros.strPorcIGV.Replace(".", ""), 2));
+            //            Convertidor = Convert.ToDecimal(PorIVAP);
+            //            if (Convertidor < 10)
+            //            {
+            //                PorIVAP = '0' + Convertidor.ToString();
+            //            }
+            //            decimal neto = Math.Round(total / Convert.ToDecimal("1." + PorIVAP.Replace(".", "")), 2);
+            //            txtMontoNeto.Text = Convertir.RedondearNumero(neto).ToString();
+            //            txtMontoTotal.Text = Convertir.RedondearNumero(total).ToString();
+            //            //txtMontoIGV.Text = (Convert.ToDecimal(txtMontoTotal.Text) - Convert.ToDecimal(txtMontoNeto.Text)).ToString();
+            //        }
+            //        else
+            //        {
+            //            txtMontoImpArroz.Text = Math.Round(Convert.ToDecimal(lstDetalle.Sum(ob => ob.dcrec_nmonto_imp_arroz)), 2, MidpointRounding.ToEven).ToString();
+            //            decimal neto = lstDetalle.Sum(x => x.dcrec_nmonto_item);
+            //            //decimal igv = Convert.ToDecimal(String.Format("1.{0}", Parametros.strPorcIGV.Replace(".", ""), 2));
+            //            Convertidor = Convert.ToDecimal(PorIVAP);
+            //            if (Convertidor < 10)
+            //            {
+            //                PorIVAP = '0' + Convertidor.ToString();
+            //            }
+            //            decimal total = Math.Round(neto * Convert.ToDecimal("1." + PorIVAP.Replace(".", "")), 2);
+            //            txtMontoNeto.Text = Convertir.RedondearNumero(neto).ToString();
+            //            txtMontoTotal.Text = Convertir.RedondearNumero(total).ToString();
+            //            //txtMontoIGV.Text = (Convert.ToDecimal(txtMontoTotal.Text) - Convert.ToDecimal(txtMontoNeto.Text)).ToString();
+            //        }
+            //    }
+            //}
+
+            #endregion
+            if (lstDetalle.Count > 0)
+            {
+                txtMontoTotal.Text = lstDetalle.Sum(x => x.dcrec_nmonto_total).ToString();
+
+                txtMontoImpArroz.Text = lstDetalle.Sum(x => x.dcrec_nmonto_imp_arroz).ToString();
+                txtMontoNetoIVAP.Text = lstDetalle.Sum(x => x.dcrec_nneto_ivap).ToString();
+
+                txtMontoIGV.Text = lstDetalle.Sum(x => x.dcrec_nmonto_impuesto).ToString();
+                txtMontoNeto.Text = lstDetalle.Sum(x => x.dcrec_nmonto_total).ToString();
+
+                txtMontoNetoExo.Text = lstDetalle.Sum(x => x.dcrec_nneto_exo).ToString();
+
+            }
+        }
+
+        private void modificarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ENotaCreditoDet obe = (ENotaCreditoDet)viewNC.GetRow(viewNC.FocusedRowHandle);
+            if (obe == null)
+                return;
+            if (obe.intClasificacion != Parametros.intTipoPrdServicio)
+                modificarItem();
+            else
+                modificarServicio();           
+        }
+
+        private void modificarItem()
+        {
+            ENotaCreditoDet obe = (ENotaCreditoDet)viewNC.GetRow(viewNC.FocusedRowHandle);
+            if (obe == null)
+                return;
+            using (frmManteNotaCredDetalle frm = new frmManteNotaCredDetalle())
+            {
+                frm.oBe = obe;
+                frm.intClasificacion = obe.intClasificacion;
+                frm.lstDetalle = lstDetalle;
+                //frm.flag_Arrox = ChkIndArroz.Checked;
+                //frm.valor_IGV = Convert.ToDecimal(txtIgv.Text);
+                frm.flag_afecto_ivap = obe.prdc_afecto_ivap;
+                frm.flag_afecto_igv = obe.prdc_afecto_igv;
+                frm.SetModify();
+                frm.txtMoneda.Text = lkpMoneda.Text;
+                //frm.flag_Arrox = ChkIndArroz.Checked;
+                frm.flag_afecto_ivap = obe.AfectoIVAP;
+                frm.txtItem.Text = String.Format("{0:000}", obe.dcrec_inro_item);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    lstDetalle = frm.lstDetalle;
+                    grdNC.DataSource = lstDetalle;
+                    viewNC.RefreshData();
+                    viewNC.MoveLast();
+                    setTotales();
+                }
+            }
+        }
+
+        private void eliminarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ENotaCreditoDet obe = (ENotaCreditoDet)viewNC.GetRow(viewNC.FocusedRowHandle);
+            if (obe == null)
+                return;
+            lstDelete.Add(obe);
+            lstDetalle.Remove(obe);
+            renumerar();
+            grdNC.DataSource = lstDetalle;
+
+            viewNC.RefreshData();
+            setTotales();
+        }
+
+        private void renumerar()
+        {
+            Int16 intCont = 0;
+            lstDetalle.ForEach(x => 
+            {
+                intCont += 1;
+                x.dcrec_inro_item = intCont;
+            });
+        }
+
+        private void nuevoServicioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            nuevoServicio();
+        }
+
+        private void bteNroDoc_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+        {
+            listarDocumentoReferencia();
+        }
+
+        private void bteCliente_ButtonClick_1(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+        {
+            listarCliente();
+        }
+
+        private void listarCliente()
+        {
+            try
+            {
+                using (FrmListarCliente frm = new FrmListarCliente())
+                {
+                    if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        bteCliente.Tag = frm._Be.cliec_icod_cliente;
+                        bteCliente.Text = frm._Be.cliec_vnombre_cliente;
+                        txtRuc.Text = frm._Be.cliec_cruc;
+                        /**/
+                        oBe.cliec_icod_cliente = frm._Be.cliec_icod_cliente;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "Información del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void listarDocumentoReferencia()
+        {
+            try
+            {
+                if (Convert.ToInt32(bteCliente.Tag) == 0)
+                    throw new ArgumentException("Seleccione el cliente");
+
+                using (FrmListarDocXCobrar frm = new FrmListarDocXCobrar())
+                {
+                    frm.intCliente = Convert.ToInt32(bteCliente.Tag);
+                    frm.flagBovFav = true;
+                    frm.intTipoDoc = Convert.ToInt32(lkpTipoDoc.EditValue);
+                    if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        lkpTipoDoc.EditValue = frm._Be.tdocc_icod_tipo_doc;
+                        bteNroDoc.Text = frm._Be.doxcc_vnumero_doc;
+                        bteNroDoc.Tag = frm._Be.doxcc_icod_correlativo;
+                        dteFechaDoc.EditValue = frm._Be.doxcc_sfecha_doc;
+                        oBe.tdodc_iid_correlativo = frm._Be.tdodc_iid_correlativo;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "Información del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void cbIncluyeIGV_CheckedChanged(object sender, EventArgs e)
+        {
+            setTotales();
+        }
+
+        private void txtSerie_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ChkIndArroz_CheckedChanged(object sender, EventArgs e)
+        {
+            //if (ChkIndArroz.Checked == false)
+            //{
+            //    txtMontoIGV.Text = IGV.ToString();
+            //    cbIncluyeIGV.Enabled = true;
+            //}
+            //else
+            //{
+            //    //if (Status == BSMaintenanceStatus.CreateNew)
+            //    txtMontoIGV.Text = "0.00";
+            //    cbIncluyeIGV.Enabled = false;
+            //}
+        }
+
+        private void bteVendedor_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+        {
+            listarVendedor();
+        }
+        private void listarVendedor()
+        {
+            try
+            {
+                using (FrmListarVendedor frm = new FrmListarVendedor())
+                {
+                    if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        bteVendedor.Tag = frm._Be.vendc_icod_vendedor;
+                        bteVendedor.Text = frm._Be.vendc_vnombre_vendedor;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "Información del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void lkpTipoDoc_EditValueChanged(object sender, EventArgs e)
+        {
+            getNroDoc();
+        }
+    }    
+}

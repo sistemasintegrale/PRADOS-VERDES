@@ -1,0 +1,14 @@
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\bin\Release\SGE.BusinessLogic.dll.config
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\bin\Release\SGE.BusinessLogic.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\bin\Release\SGE.BusinessLogic.pdb
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\bin\Release\Newtonsoft.Json.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\bin\Release\RestSharp.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\bin\Release\SGE.DataAccess.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\bin\Release\SGE.Entity.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\bin\Release\SGE.DataAccess.pdb
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\bin\Release\SGE.Entity.pdb
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\bin\Release\Newtonsoft.Json.xml
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\bin\Release\RestSharp.xml
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\obj\Release\SGE.BusinessLogic.csprojResolveAssemblyReference.cache
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\obj\Release\SGE.BusinessLogic.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.BusinessLogic\obj\Release\SGE.BusinessLogic.pdb

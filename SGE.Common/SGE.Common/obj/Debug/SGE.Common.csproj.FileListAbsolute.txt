@@ -1,0 +1,6 @@
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.Common\SGE.Common\bin\Debug\SGE.Common.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.Common\SGE.Common\bin\Debug\SGE.Common.pdb
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.Common\SGE.Common\obj\Debug\SGE.Common.csproj.AssemblyReference.cache
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.Common\SGE.Common\obj\Debug\SGE.Common.csproj.CoreCompileInputs.cache
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.Common\SGE.Common\obj\Debug\SGE.Common.dll
+D:\PROYECTOS RAFHAEL\SOLUCIONES\PRADOS VERDES\SGE.Solution\SGE.Common\SGE.Common\obj\Debug\SGE.Common.pdb

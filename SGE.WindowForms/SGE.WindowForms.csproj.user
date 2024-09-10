@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PublishUrlHistory>D:\PROYECTOS RAFHAEL\PUBLICACIONES\Publish-PradosVerdes\|D:\PROYECTOS RAFHAEL\PUBLICACIONES\Publish-PRADOS VERDES\|D:\PROYECTOS RAFHAEL\Publish-PRADOS VERDES\|D:\GERSON\Publish-PRADOS VERDES\|\\Side\GERSON\Publish-PRADOS VERDES\</PublishUrlHistory>
+    <InstallUrlHistory>\\Server\Publish\|\\Side\GERSON\Publish-PRADOS VERDES\|\\Lenovo\deivys\Publish-PRADOS VERDES\|\\Servidor\Publish\|\\Side\GERSON\Publish-MJCGROUP\</InstallUrlHistory>
+    <SupportUrlHistory />
+    <UpdateUrlHistory>\\Server\Publish\|\\Side\GERSON\Publish-PRADOS VERDES\|\\Lenovo\deivys\Publish-PRADOS VERDES\|\\Servidor\Publish\|\\Side\GERSON\Publish-MJCGROUP\</UpdateUrlHistory>
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+    <ProjectView>ProjectFiles</ProjectView>
+  </PropertyGroup>
+  <PropertyGroup>
+    <EnableSecurityDebugging>false</EnableSecurityDebugging>
+  </PropertyGroup>
+</Project>
